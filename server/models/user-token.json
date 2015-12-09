@@ -1,0 +1,40 @@
+{
+  "name": "user_token",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "user_id": {
+      "type": "number",
+      "required": true
+    },
+    "token_info": {
+      "type": "string",
+      "required": true
+    },
+    "expires_time": {
+      "type": "string"
+    },
+    "state": {
+      "type": "number"
+    },
+    "creator_id": {
+      "type": "number"
+    },
+    "create_at": {
+      "type": "string"
+    },
+    "updater_id": {
+      "type": "number"
+    },
+    "update_at": {
+      "type": "string"
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

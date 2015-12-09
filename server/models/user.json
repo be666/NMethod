@@ -1,0 +1,27 @@
+{
+  "name": "user",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "ldap_uid": {
+      "type": "string",
+      "required": true
+    },
+    "state": {
+      "type": "number"
+    },
+    "create_at": {
+      "type": "string"
+    },
+    "update_at": {
+      "type": "string"
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}
