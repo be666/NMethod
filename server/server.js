@@ -1,7 +1,8 @@
 var loopback = require('loopback');
-var tools = require('../tools');
+var path = require('path');
 var boot = require('loopback-boot');
 var app = module.exports = loopback();
+app.use(loopback.context());
 
 app.start = function () {
   // start the web server
@@ -15,7 +16,6 @@ app.start = function () {
     }
   });
 };
-
 
 
 // Bootstrap the application, configure models, datasources and middleware.

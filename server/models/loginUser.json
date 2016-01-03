@@ -1,5 +1,5 @@
 {
-  "name": "login_user",
+  "name": "LoginUser",
   "base": "Model",
   "idInjection": true,
   "options": {

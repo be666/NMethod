@@ -1,8 +1,23 @@
 /**
  * Created by bqxu on 15/12/9.
  */
-var app = require("loopback");
+var loopback = require("loopback");
+var app = require("../server/server");
+var logger = require("./logger");
 var pub = {};
+pub.loopback = loopback;
+pub.app = app;
+pub.extend = Object.assign || function (target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i];
+      for (var key in source) {
+        if (Object.prototype.hasOwnProperty.call(source, key)) {
+          target[key] = source[key];
+        }
+      }
+    }
+    return target;
+  };
 pub.isNotEmptyStr = function (str) {
   if (typeof str == 'string' && str.length > 0) return true;
 };
@@ -27,6 +42,28 @@ pub.getCurrentDateTimeStr = function () {
   for (var k in o)
     if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
   return fmt;
+};
+
+pub.getCurrentDateStr = function () {
+  var currentDate = new Date();
+  var fmt = "yyyy-MM-dd";
+  var o = {
+    "M+": currentDate.getMonth() + 1, //月份
+    "d+": currentDate.getDate(), //日
+    "h+": currentDate.getHours(), //小时
+    "m+": currentDate.getMinutes(), //分
+    "s+": currentDate.getSeconds(), //秒
+    "q+": Math.floor((currentDate.getMonth() + 3) / 3), //季度
+    "S": currentDate.getMilliseconds() //毫秒
+  };
+  if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (currentDate.getFullYear() + "").substr(4 - RegExp.$1.length));
+  for (var k in o)
+    if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+  return fmt;
+};
+
+pub.getCurrentDate = function () {
+  return new Date();
 };
 
 
@@ -60,7 +97,72 @@ pub.getUUid = function (len, radix) {
 
 
 pub.getModelByName = function (modelName) {
-  return app.getModel(modelName);
+  return loopback.getModel(modelName);
 };
+
+pub.inArray = function (arr, el) {
+  arr = arr || [];
+  for (var i = 0, k = arr.length; i < k; i++) {
+    if (el == arr[i]) {
+      return true;
+    }
+  }
+};
+pub.inArrayMatch = function (arr, el) {
+  arr = arr || [];
+  for (var i = 0, k = arr.length; i < k; i++) {
+    if (el.indexOf(arr[i]) > -1) {
+      return true;
+    }
+  }
+}
+
+pub.getArg = function (arg) {
+  return app.get(arg);
+};
+
+
+pub.getCurrentContext = function () {
+  return loopback.getCurrentContext();
+};
+
+pub.saveUser = function (userInfo) {
+  var context = pub.getCurrentContext();
+  if (context != null) {
+    context.set("threadUserInfo", userInfo);
+  }
+};
+pub.getUser = function () {
+  var context = pub.getCurrentContext();
+  if (context != null) {
+    return context.get("threadUserInfo");
+  }
+};
+pub.buildMap = function (list, code, codeName) {
+  var map = {};
+  list = list || [];
+  for (var i = 0; i < list.length; i++) {
+    var item = list[i];
+    map[item[code]] = item[codeName];
+  }
+  return map;
+};
+
+pub.getDateExp = function (exp) {
+  var timeStr = pub.getCurrentDateStr();
+  var timeArr = timeStr.split("-");
+  if (12 - timeArr[1] >= exp) {
+    timeArr[1] = parseInt(timeArr[1]) + exp;
+  } else {
+    timeArr[1] = parseInt(timeArr[1]) + exp - 12;
+    timeArr[0] = parseInt(timeArr[0]) + 1;
+  }
+  return new Date(timeArr.join("/"))
+};
+
+
+pub.logger = logger;
+
+pub.debugger = logger.debugger;
 
 module.exports = pub;

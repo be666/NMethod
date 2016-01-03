@@ -4,7 +4,9 @@
       "loopback/common/models",
       "loopback/server/models",
       "../common/models",
-      "./models"
+      "../common/models/base",
+      "./models",
+      "./models/app"
     ],
     "mixins": [
       "loopback/common/mixins",
@@ -17,16 +19,32 @@
     "dataSource": "db",
     "public": false
   },
-  "user": {
+  "LoginUser": {
+    "dataSource": "db",
+    "public": true
+  },
+  "User": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "UserToken": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "Role": {
     "dataSource": "db",
     "public": false
   },
-  "user_token": {
-    "dataSource": "db",
-    "public": false
+  "VisitLog": {
+    "dataSource": "mysql",
+    "public": true
   },
-  "login_user": {
-    "dataSource": null,
-    "public": false
+  "OptionLog": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "Code": {
+    "dataSource": "mysql",
+    "public": true
   }
 }

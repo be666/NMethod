@@ -1,43 +1,12 @@
 {
-  "dbtest": {
-    "host": "127.0.0.1",
-    "port": 3306,
-    "url": "",
-    "database": "loopback_demo",
-    "password": "loopback_demo",
-    "name": "dbtest",
-    "connector": "mysql",
-    "user": "loopback_demo"
-  },
-  "provision": {
-    "name": "provision",
-    "connector": "memory"
-  },
   "db": {
     "name": "db",
-    "connector": "memory"
+    "connector": "memory",
+    "file":"memory/db.json"
   },
-  "sessionMemory": {
-    "name": "sessionMemory",
-    "connector": "memory"
-  },
-  "emailDs": {
-    "name": "emailDs",
-    "connector": "mail",
-    "transports": [
-      {
-        "type": "smtp",
-        "host": "smtp.gmail.com",
-        "secure": true,
-        "port": 465,
-        "tls": {
-          "rejectUnauthorized": false
-        },
-        "auth": {
-          "user": "email@address.com",
-          "pass": "password"
-        }
-      }
-    ]
+  "mysql": {
+    "name": "db",
+    "connector": "memory",
+    "file":"memory/mysql.json"
   }
 }

@@ -1,5 +1,5 @@
 {
-  "name": "User",
+  "name": "UserToken",
   "base": "Entity",
   "idInjection": true,
   "options": {
@@ -7,17 +7,33 @@
   },
   "mysql": {
     "schema": "ge_store",
-    "table": "User"
+    "table": "UserToken"
   },
   "properties": {
-    "loginName": {
+    "userId": {
+      "type": "Number",
+      "required": false,
+      "length": null,
+      "precision": 10,
+      "scale": 0,
+      "mysql": {
+        "columnName": "userId",
+        "dataType": "int",
+        "dataLength": null,
+        "dataPrecision": 10,
+        "dataScale": 0,
+        "nullable": "Y"
+      },
+      "_selectable": true
+    },
+    "tokenInfo": {
       "type": "String",
       "required": false,
       "length": 45,
       "precision": null,
       "scale": null,
       "mysql": {
-        "columnName": "loginName",
+        "columnName": "tokenInfo",
         "dataType": "varchar",
         "dataLength": 45,
         "dataPrecision": null,
@@ -26,49 +42,21 @@
       },
       "_selectable": true
     },
-    "realName": {
-      "type": "String",
+    "expiresTime": {
+      "type": "Date",
       "required": false,
-      "length": 45,
+      "length": null,
       "precision": null,
       "scale": null,
       "mysql": {
-        "columnName": "realName",
-        "dataType": "varchar",
-        "dataLength": 45,
+        "columnName": "expiresTime",
+        "dataType": "datetime",
+        "dataLength": null,
         "dataPrecision": null,
         "dataScale": null,
         "nullable": "Y"
       },
       "_selectable": true
-    },
-    "userName": {
-      "type": "String",
-      "required": false,
-      "length": 45,
-      "precision": null,
-      "scale": null,
-      "mysql": {
-        "columnName": "userName",
-        "dataType": "varchar",
-        "dataLength": 45,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "Y"
-      },
-      "_selectable": true
-    },
-    "password": {
-      "type": "string",
-      "required": true
-    },
-    "credentials": {
-      "type": "object",
-      "deprecated": true
-    },
-    "email": {
-      "type": "string",
-      "required": true
     }
   },
   "validations": [],

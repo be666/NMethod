@@ -3,10 +3,13 @@
   "version": "1.0.0",
   "main": "server/server.js",
   "scripts": {
-    "pretest": "jshint ."
+    "pretest": "jshint .",
+    "start": "node .",
+    "dev": "export NODE_ENV=dev && node ."
   },
   "dependencies": {
     "compression": "^1.0.3",
+    "connect-multiparty": "^2.0.0",
     "connect-redis": "^3.0.1",
     "cors": "^2.5.2",
     "express-session": "^1.12.1",
