@@ -11,12 +11,20 @@ module.exports = function (LoginUser) {
     return User.findById(userId)
   };
 
-  LoginUser.createByUid = function (uid, userName, rule) {
+  LoginUser.findByLoginName = function (loginName) {
+    var User = tools.getModelByName('User');
+    return User.findOne({
+      where: {
+        loginName: loginName
+      }
+    })
+  };
+
+  LoginUser.createByLoginName = function (loginName) {
     var User = tools.getModelByName('User');
     return User.create({
       id: 0,
-      userName: userName,
-      rule: JSON.stringify(rule),
+      loginName: loginName,
       state: 1,
       createAt: tools.getCurrentDateStr()
     })
@@ -32,7 +40,16 @@ module.exports = function (LoginUser) {
     return UserToken.updateAll({tokenInfo: token, state: 0});
   }
 
-  LoginUser.getUserInfo=function(uid, pwd){
-    return User.findOne({where: {uid: uid,pwd: pwd}})
+  LoginUser.getUserInfo = function (loginName, pwd, cb) {
+    var User = tools.getModelByName('User');
+    return User.findOne({where: {loginName: loginName, password: pwd}}, function (err, user) {
+      if (user != null) {
+        return cb({
+          state: "success",
+          userInfo: user
+        })
+      }
+      cb({state: "false"});
+    })
   }
 };

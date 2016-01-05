@@ -59,16 +59,10 @@
       "_selectable": true
     },
     "password": {
-      "type": "string",
-      "required": true
-    },
-    "credentials": {
-      "type": "object",
-      "deprecated": true
+      "type": "string"
     },
     "email": {
-      "type": "string",
-      "required": true
+      "type": "string"
     }
   },
   "validations": [],

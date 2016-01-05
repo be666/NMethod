@@ -26,10 +26,10 @@ exports.login = function (req, uid, pwd, cb) {
     if (result.state == "success") {
       var userInfo = result.userInfo;
       var cUser = null;
-      LoginUser.findByUid(uid).then(function (user) {
+      LoginUser.findByLoginName(uid).then(function (user) {
         cUser = user;
         if (tools.isNotObj(cUser)) {
-          LoginUser.createByUid(uid, userInfo.userName, userInfo.userRule).then(function (user) {
+          LoginUser.createByLoginName(uid, userInfo.userName, userInfo.userRule).then(function (user) {
             cUser = user;
             if (cUser != null) {
               userInfo.userId = cUser.id;
