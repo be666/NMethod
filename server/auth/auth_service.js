@@ -16,6 +16,7 @@
  *
  */
 var tools = require('../../tools');
+var url = require('url');
 var sessionCache = {};
 var session_user_key = "session_user_token";
 
@@ -95,7 +96,9 @@ exports.getUser = function (req) {
 
 
 exports.autoLogin = function (req, res, tokenInfo) {
-  res.cookie('atk', tokenInfo, {path: '/', maxAge: 7 * 24 * 60 * 60 * 1000});
+  var refer = req.get('Referrer');
+  var urlObj=new url(refer);
+  res.cookie('atk', tokenInfo, {host: urlObj.hostname, path: '/', maxAge: 7 * 24 * 60 * 60 * 1000});
 };
 
 exports.checkAutoLogin = function (req, success, error) {

@@ -5,10 +5,6 @@
   "options": {
     "validateUpsert": true
   },
-  "mysql": {
-    "schema": "ge_store",
-    "table": "User"
-  },
   "properties": {
     "loginName": {
       "type": "String",
@@ -16,14 +12,6 @@
       "length": 45,
       "precision": null,
       "scale": null,
-      "mysql": {
-        "columnName": "loginName",
-        "dataType": "varchar",
-        "dataLength": 45,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "Y"
-      },
       "_selectable": true
     },
     "realName": {
@@ -32,14 +20,6 @@
       "length": 45,
       "precision": null,
       "scale": null,
-      "mysql": {
-        "columnName": "realName",
-        "dataType": "varchar",
-        "dataLength": 45,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "Y"
-      },
       "_selectable": true
     },
     "userName": {
@@ -48,17 +28,9 @@
       "length": 45,
       "precision": null,
       "scale": null,
-      "mysql": {
-        "columnName": "userName",
-        "dataType": "varchar",
-        "dataLength": 45,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "Y"
-      },
       "_selectable": true
     },
-    "password": {
+    "passWord": {
       "type": "string"
     },
     "email": {

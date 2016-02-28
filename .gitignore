@@ -19,9 +19,15 @@ node_modules
 npm-debug.log
 
 bower_components
-
+node_modules
+tmp
+upload
+*.mwb.bak
 
 memory/*.json
 
-_site
+client/node_modules
+
 .sass-cache
+
+_site

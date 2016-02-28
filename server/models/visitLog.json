@@ -5,10 +5,6 @@
   "options": {
     "validateUpsert": true
   },
-  "mysql": {
-    "schema": "ge_store",
-    "table": "VisitLog"
-  },
   "properties": {
     "url": {
       "type": "String",
@@ -16,14 +12,6 @@
       "length": 45,
       "precision": null,
       "scale": null,
-      "mysql": {
-        "columnName": "url",
-        "dataType": "varchar",
-        "dataLength": 45,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "Y"
-      },
       "_selectable": true
     },
     "userId": {
@@ -32,14 +20,6 @@
       "length": null,
       "precision": 10,
       "scale": 0,
-      "mysql": {
-        "columnName": "userId",
-        "dataType": "int",
-        "dataLength": null,
-        "dataPrecision": 10,
-        "dataScale": 0,
-        "nullable": "Y"
-      },
       "_selectable": true
     },
     "userName": {
@@ -48,14 +28,6 @@
       "length": 45,
       "precision": null,
       "scale": null,
-      "mysql": {
-        "columnName": "userName",
-        "dataType": "varchar",
-        "dataLength": 45,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "Y"
-      },
       "_selectable": true
     },
     "visitTime": {
@@ -64,14 +36,6 @@
       "length": null,
       "precision": null,
       "scale": null,
-      "mysql": {
-        "columnName": "visitTime",
-        "dataType": "datetime",
-        "dataLength": null,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "Y"
-      },
       "_selectable": true
     }
   },

@@ -1,12 +1,12 @@
 {
-  "name": "OptionLog",
+  "name": "Code",
   "base": "Entity",
   "idInjection": true,
   "options": {
     "validateUpsert": true
   },
   "properties": {
-    "action": {
+    "code": {
       "type": "String",
       "required": false,
       "length": 45,
@@ -14,7 +14,7 @@
       "scale": null,
       "_selectable": true
     },
-    "url": {
+    "codeName": {
       "type": "String",
       "required": false,
       "length": 45,
@@ -22,7 +22,39 @@
       "scale": null,
       "_selectable": true
     },
-    "userId": {
+    "parentCode": {
+      "type": "String",
+      "required": false,
+      "length": 45,
+      "precision": null,
+      "scale": null,
+      "_selectable": true
+    },
+    "index": {
+      "type": "String",
+      "required": false,
+      "length": 45,
+      "precision": null,
+      "scale": null,
+      "_selectable": true
+    },
+    "codeType": {
+      "type": "String",
+      "required": false,
+      "length": 45,
+      "precision": null,
+      "scale": null,
+      "_selectable": true
+    },
+    "codeTypeName": {
+      "type": "String",
+      "required": false,
+      "length": 45,
+      "precision": null,
+      "scale": null,
+      "_selectable": true
+    },
+    "sysDef": {
       "type": "Number",
       "required": false,
       "length": null,
@@ -30,7 +62,7 @@
       "scale": 0,
       "_selectable": true
     },
-    "userName": {
+    "enable": {
       "type": "Number",
       "required": false,
       "length": null,
@@ -38,28 +70,12 @@
       "scale": 0,
       "_selectable": true
     },
-    "desc": {
-      "type": "String",
-      "required": false,
-      "length": 45,
-      "precision": null,
-      "scale": null,
-      "_selectable": true
-    },
-    "req": {
-      "type": "String",
-      "required": false,
-      "length": 45,
-      "precision": null,
-      "scale": null,
-      "_selectable": true
-    },
-    "optionTime": {
-      "type": "Date",
+    "used": {
+      "type": "Number",
       "required": false,
       "length": null,
-      "precision": null,
-      "scale": null,
+      "precision": 10,
+      "scale": 0,
       "_selectable": true
     }
   },

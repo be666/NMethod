@@ -1,5 +1,5 @@
 {
-  "name": "loopback_demo",
+  "name": "NMethod",
   "version": "1.0.0",
   "main": "server/server.js",
   "scripts": {
@@ -8,18 +8,18 @@
     "dev": "export NODE_ENV=dev && node ."
   },
   "dependencies": {
+    "async": "^1.5.2",
     "compression": "^1.0.3",
     "connect-multiparty": "^2.0.0",
     "connect-redis": "^3.0.1",
+    "cookie-parser": "^1.4.1",
     "cors": "^2.5.2",
     "express-session": "^1.12.1",
-    "ldapjs": "^1.0.0",
     "loopback": "^2.22.0",
     "loopback-boot": "^2.6.5",
     "loopback-component-explorer": "^2.1.0",
     "loopback-connector-mysql": "^2.2.0",
     "loopback-datasource-juggler": "^2.39.0",
-    "loopback-explorer": "^2.0.2",
     "node-uuid": "^1.4.7",
     "serve-favicon": "^2.0.1"
   },
@@ -30,6 +30,6 @@
     "type": "",
     "url": ""
   },
-  "": "MIT",
+  "license": "MIT",
   "description": "loopback_demo"
 }

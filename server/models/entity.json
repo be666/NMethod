@@ -1,0 +1,13 @@
+{
+  "name": "Entity",
+  "base": "PersistedModel",
+  "properties": {
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {},
+  "mixins": {
+    "Stamp": {}
+  }
+}

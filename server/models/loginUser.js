@@ -38,7 +38,7 @@ module.exports = function (LoginUser) {
   LoginUser.deleteToken = function (token) {
     var UserToken = tools.getModelByName('UserToken');
     return UserToken.updateAll({tokenInfo: token, state: 0});
-  }
+  };
 
   LoginUser.getUserInfo = function (loginName, pwd, cb) {
     var User = tools.getModelByName('User');

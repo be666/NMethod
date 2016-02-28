@@ -4,7 +4,6 @@
       "loopback/common/models",
       "loopback/server/models",
       "../common/models",
-      "../common/models/base",
       "./models",
       "./models/app"
     ],

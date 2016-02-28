@@ -7,13 +7,14 @@ module.exports = function (app) {
   User.findOrCreate({
     "loginName": "Admin",
     "password": "123456",
+    "userName": "管理员",
     "state": 1,
     "id": 1
-  },function(err,user){
-    if(err){
+  }, function (err, user) {
+    if (err) {
       console.log(err)
-    }else{
+    } else {
       console.log(user)
     }
-  })
+  });
 };

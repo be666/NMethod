@@ -3,7 +3,6 @@
  */
 var authService = require("../auth/auth_service");
 var tools = require("../../tools");
-var loopback = tools.loopback;
 module.exports = function (option) {
   option = option || {};
   var ignore = option['ignore'] || [];
