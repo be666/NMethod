@@ -4,9 +4,9 @@
     "connector": "memory",
     "file":"memory/db.json"
   },
-  "mysql": {
+  "sys": {
     "name": "db",
     "connector": "memory",
-    "file":"memory/mysql.json"
+    "file":"memory/sys.json"
   }
 }

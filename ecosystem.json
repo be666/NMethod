@@ -3,6 +3,7 @@
     {
       "name": "node-framework",
       "script": "server/server.js",
+      "node_args" : "--harmony",
       "watch": true,
       "ignore_watch": [
         ".idea",
@@ -14,6 +15,7 @@
         "upload",
         "client"
       ],
+      "next_gen_js": true,
       "env_dev": {
         "NODE_ENV": "dev"
       }

@@ -31,10 +31,28 @@
       "_selectable": true
     },
     "passWord": {
-      "type": "string"
+      "type": "String",
+      "required": false,
+      "length": 45,
+      "precision": null,
+      "scale": null,
+      "_selectable": true
     },
     "email": {
-      "type": "string"
+      "type": "String",
+      "required": false,
+      "length": 45,
+      "precision": null,
+      "scale": null,
+      "_selectable": true
+    },
+    "sex": {
+      "type": "String",
+      "required": false,
+      "length": 45,
+      "precision": null,
+      "scale": null,
+      "_selectable": true
     }
   },
   "validations": [],

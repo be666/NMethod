@@ -48,7 +48,8 @@
       "paths": [
         "${restApiRoot}"
       ]
-    }
+    },
+    "./middleware/proxy.js": {}
   },
   "routes:after": {
   },

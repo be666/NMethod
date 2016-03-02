@@ -22,21 +22,24 @@ var session_user_key = "session_user_token";
 
 exports.login = function (req, uid, pwd, cb) {
   var LoginUser = tools.getModelByName("LoginUser");
+
   LoginUser.getUserInfo(uid, pwd, function (result) {
     var session = req.session;
+
     if (result.state == "success") {
       var userInfo = result.userInfo;
       var cUser = null;
       LoginUser.findByLoginName(uid).then(function (user) {
         cUser = user;
-        if (tools.isNotObj(cUser)) {
+        if (cUser == null) {
+          console.log(111);
           LoginUser.createByLoginName(uid, userInfo.userName, userInfo.userRule).then(function (user) {
             cUser = user;
             if (cUser != null) {
               userInfo.userId = cUser.id;
               var tokenInfo = tools.getUUid();
               var userToken;
-              LoginUser.saveToken(userInfo.userId, tokenInfo).then(function (token) {
+              LoginUser.saveToken(userInfo.userId, tokenInfo, req.ip).then(function (token) {
                 userToken = token;
                 session[session_user_key] = userToken.tokenInfo;
                 sessionCache[session[session_user_key]] = userInfo;
@@ -44,18 +47,27 @@ exports.login = function (req, uid, pwd, cb) {
               });
             }
           });
-        } else if (cUser != null) {
+        } else {
+          console.log(22);
           userInfo.userId = cUser.id;
           var tokenInfo = tools.getUUid();
           var userToken;
-          LoginUser.saveToken(userInfo.userId, tokenInfo).then(function (token) {
+          console.log(33);
+          LoginUser.saveToken(userInfo.userId, tokenInfo, req.ip).then(function (token) {
+            console.log('111');
+            console.log(token);
             userToken = token;
             session[session_user_key] = userToken.tokenInfo;
             sessionCache[session[session_user_key]] = userInfo;
             cb("success", userInfo, userToken.tokenInfo);
-          });
+          }).catch(function (err) {
+            console.log(err);
+            console.log(44);
+          })
         }
-      });
+      }).catch(function (err) {
+        console.log(err);
+      })
     } else {
       session[session_user_key] = null;
       cb();
@@ -97,8 +109,8 @@ exports.getUser = function (req) {
 
 exports.autoLogin = function (req, res, tokenInfo) {
   var refer = req.get('Referrer');
-  var urlObj=new url(refer);
-  res.cookie('atk', tokenInfo, {host: urlObj.hostname, path: '/', maxAge: 7 * 24 * 60 * 60 * 1000});
+  var urlObj = new url.parse(refer);
+  res.cookie('atk', tokenInfo, {domain: urlObj.host, path: '/', maxAge: 7 * 24 * 60 * 60 * 1000});
 };
 
 exports.checkAutoLogin = function (req, success, error) {
@@ -111,11 +123,10 @@ exports.checkAutoLogin = function (req, success, error) {
       var userId = userToken.userId;
       LoginUser.findUserById(userId).then(function (user) {
         var userInfo = user;
-        userInfo.userRule = JSON.parse(user.rule);
         session[session_user_key] = _session_user_key;
         sessionCache[session[session_user_key]] = userInfo;
         success(user);
-      }).catch(function () {
+      }).catch(function (err) {
         error();
       })
     }).catch(function () {

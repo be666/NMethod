@@ -17,10 +17,15 @@ module.exports = function (option) {
     } else if (!tools.isNotObj(userInfo)) {
       next();
     } else {
-      var error = new Error("no login");
-      error.status = 401;
-      delete error.stack;
-      next(error);
+      authService.checkAutoLogin(req, function (userInfo) {
+        next();
+      }, function () {
+        var error = new Error("no login");
+        error.status = 401;
+        delete error.stack;
+        next(error);
+      })
+
     }
   }
 };

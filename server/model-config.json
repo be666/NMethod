@@ -18,32 +18,36 @@
     "dataSource": "db",
     "public": false
   },
-  "LoginUser": {
-    "dataSource": "db",
-    "public": true
-  },
-  "User": {
-    "dataSource": "mysql",
-    "public": true
-  },
-  "UserToken": {
-    "dataSource": "mysql",
-    "public": true
-  },
   "Role": {
     "dataSource": "db",
     "public": false
   },
+  "Code": {
+    "dataSource": "sys",
+    "public": true
+  },
+  "User": {
+    "dataSource": "sys",
+    "public": true
+  },
+  "UserToken": {
+    "dataSource": "sys",
+    "public": true
+  },
+  "LoginUser": {
+    "dataSource": "sys",
+    "public": true
+  },
   "VisitLog": {
-    "dataSource": "mysql",
+    "dataSource": "sys",
     "public": true
   },
   "OptionLog": {
-    "dataSource": "mysql",
+    "dataSource": "sys",
     "public": true
   },
-  "Code": {
-    "dataSource": "mysql",
+  "Proxy": {
+    "dataSource": "sys",
     "public": true
   }
 }

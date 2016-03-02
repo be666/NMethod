@@ -6,7 +6,7 @@ var session = require("express-session");
 module.exports = function (option) {
   return session({
       genid: function (req) {
-        return tools.getUUid(32, 36);// use UUIDs for session IDs
+        return tools.getUUid(10, 32);// use UUIDs for session IDs
       },
       secret: 'hi session',
       name: 'ge.id',

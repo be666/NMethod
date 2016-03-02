@@ -1,20 +1,12 @@
 {
-  "name": "UserToken",
+  "name": "Proxy",
   "base": "Entity",
   "idInjection": true,
   "options": {
     "validateUpsert": true
   },
   "properties": {
-    "userId": {
-      "type": "Number",
-      "required": false,
-      "length": null,
-      "precision": 10,
-      "scale": 0,
-      "_selectable": true
-    },
-    "tokenInfo": {
+    "name": {
       "type": "String",
       "required": false,
       "length": 45,
@@ -22,7 +14,7 @@
       "scale": null,
       "_selectable": true
     },
-    "ips": {
+    "proxyType": {
       "type": "String",
       "required": false,
       "length": 45,
@@ -30,23 +22,41 @@
       "scale": null,
       "_selectable": true
     },
-    "expiresTime": {
-      "type": "Date",
+    "proxyUrl": {
+      "type": "String",
       "required": false,
-      "length": null,
+      "length": 45,
+      "precision": null,
+      "scale": null,
+      "_selectable": true
+    },
+    "distUrl": {
+      "type": "String",
+      "required": false,
+      "length": 45,
+      "precision": null,
+      "scale": null,
+      "_selectable": true
+    },
+    "proxyMethod": {
+      "type": "String",
+      "required": false,
+      "length": 45,
+      "precision": null,
+      "scale": null,
+      "_selectable": true
+    },
+    "distMethod": {
+      "type": "String",
+      "required": false,
+      "length": 45,
       "precision": null,
       "scale": null,
       "_selectable": true
     }
   },
   "validations": [],
-  "relations": {
-    "user": {
-      "type": "belongsTo",
-      "model": "User",
-      "foreignKey": "userId"
-    }
-  },
+  "relations": {},
   "acls": [],
   "methods": {}
 }

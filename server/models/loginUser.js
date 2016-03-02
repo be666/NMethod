@@ -30,9 +30,9 @@ module.exports = function (LoginUser) {
     })
   };
 
-  LoginUser.saveToken = function (userId, token) {
+  LoginUser.saveToken = function (userId, token, ips) {
     var UserToken = tools.getModelByName('UserToken');
-    return UserToken.create({id: 0, userId: userId, tokenInfo: token, state: 1});
+    return UserToken.create({id: 0, userId: userId, tokenInfo: token, ips: ips, state: 1});
   };
 
   LoginUser.deleteToken = function (token) {
