@@ -1,0 +1,47 @@
+{
+  "proxyRule": {
+    "/": {
+      "to": "http://0.0.0.0:8082/index.html",
+      "match": "exact",
+      "type": "proxy",
+      "cache": "5000",
+      "methods": [
+        "get"
+      ]
+    },
+    "/favicon.ico": {
+      "to": "http://0.0.0.0:8082/favicon.ico",
+      "match": "exact",
+      "type": "proxy",
+      "cache": "5000",
+      "methods": [
+        "get"
+      ]
+    },
+    "/dist/": {
+      "to": "http://0.0.0.0:8082/dist/",
+      "match": "start",
+      "type": "proxy",
+      "methods": [
+        "get"
+      ]
+    },
+    "/cdn.amazeui.org/": {
+      "to": "http://0.0.0.0:8082/cdn.amazeui.org/",
+      "match": "start",
+      "type": "redirect",
+      "cache": "5",
+      "methods": [
+        "get"
+      ]
+    },
+    "/sockjs-node/": {
+      "to": "http://0.0.0.0:8082/sockjs-node/",
+      "match": "start",
+      "type": "proxy",
+      "methods": [
+        "get"
+      ]
+    }
+  }
+}

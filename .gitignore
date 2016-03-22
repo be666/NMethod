@@ -31,3 +31,8 @@ client/node_modules
 .sass-cache
 
 _site
+
+openssl
+proxy
+client/dist
+

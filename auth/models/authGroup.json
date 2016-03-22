@@ -1,0 +1,57 @@
+{
+  "name": "AuthGroup",
+  "base": "Entity",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "gid": {
+      "type": "number",
+      "required": false,
+      "length": 10,
+      "precision": null,
+      "scale": null,
+      "_selectable": true
+    },
+    "groupName": {
+      "type": "String",
+      "required": false,
+      "length": 20,
+      "precision": null,
+      "scale": null,
+      "_selectable": true
+    },
+    "groupRule": {
+      "type": "String",
+      "required": false,
+      "length": 20,
+      "precision": null,
+      "scale": null,
+      "_selectable": true
+    },
+    "appId": {
+      "type": "number",
+      "required": false,
+      "length": 10,
+      "precision": null,
+      "scale": null,
+      "_selectable": true
+    }
+  },
+  "validations": [],
+  "relations": {
+    "groupUser": {
+      "type": "hasMany",
+      "model": "AuthGroupUser",
+      "foreignKey": "groupId"
+    },
+    "groupApp": {
+      "type": "belongsTo",
+      "model": "AuthApp",
+      "foreignKey": "appId"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

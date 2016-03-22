@@ -1,0 +1,41 @@
+{
+  "name": "AuthAppUser",
+  "base": "Entity",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "userId": {
+      "type": "number",
+      "required": true,
+      "length": 10,
+      "precision": null,
+      "scale": null,
+      "_selectable": true
+    },
+    "appId": {
+      "type": "number",
+      "required": true,
+      "length": 10,
+      "precision": null,
+      "scale": null,
+      "_selectable": true
+    }
+  },
+  "validations": [],
+  "relations": {
+    "user": {
+      "type": "belongsTo",
+      "model": "AuthUser",
+      "foreignKey": "userId"
+    },
+    "app": {
+      "type": "belongsTo",
+      "model": "AuthApp",
+      "foreignKey": "appId"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

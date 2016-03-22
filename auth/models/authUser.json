@@ -1,0 +1,97 @@
+{
+  "name": "AuthUser",
+  "base": "Entity",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "loginName": {
+      "type": "String",
+      "required": false,
+      "length": 20,
+      "precision": null,
+      "scale": null,
+      "_selectable": true
+    },
+    "realName": {
+      "type": "String",
+      "required": false,
+      "length": 20,
+      "precision": null,
+      "scale": null,
+      "_selectable": true
+    },
+    "userName": {
+      "type": "String",
+      "required": false,
+      "length": 20,
+      "precision": null,
+      "scale": null,
+      "_selectable": true
+    },
+    "passWord": {
+      "type": "String",
+      "required": false,
+      "length": 20,
+      "precision": null,
+      "scale": null,
+      "_selectable": true
+    },
+    "email": {
+      "type": "String",
+      "required": false,
+      "length": 45,
+      "precision": null,
+      "scale": null,
+      "_selectable": true
+    },
+    "telephone": {
+      "type": "String",
+      "required": false,
+      "length": 20,
+      "precision": null,
+      "scale": null,
+      "_selectable": true
+    },
+    "sex": {
+      "type": "String",
+      "required": false,
+      "length": 1,
+      "precision": null,
+      "scale": null,
+      "_selectable": true
+    },
+    "birthday": {
+      "type": "String",
+      "required": false,
+      "length": 45,
+      "precision": null,
+      "scale": null,
+      "_selectable": true
+    },
+    "signAppId": {
+      "type": "number",
+      "required": false,
+      "length": 10,
+      "precision": null,
+      "scale": null,
+      "_selectable": true
+    }
+  },
+  "validations": [],
+  "relations": {
+    "userApp": {
+      "type": "hasMany",
+      "model": "AuthApp",
+      "foreignKey": "userId"
+    },
+    "userGroup": {
+      "type": "hasMany",
+      "model": "AuthGroup",
+      "foreignKey": "userId"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

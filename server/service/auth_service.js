@@ -32,7 +32,6 @@ exports.login = function (req, uid, pwd, cb) {
       LoginUser.findByLoginName(uid).then(function (user) {
         cUser = user;
         if (cUser == null) {
-          console.log(111);
           LoginUser.createByLoginName(uid, userInfo.userName, userInfo.userRule).then(function (user) {
             cUser = user;
             if (cUser != null) {
@@ -48,25 +47,18 @@ exports.login = function (req, uid, pwd, cb) {
             }
           });
         } else {
-          console.log(22);
           userInfo.userId = cUser.id;
           var tokenInfo = tools.getUUid();
           var userToken;
-          console.log(33);
           LoginUser.saveToken(userInfo.userId, tokenInfo, req.ip).then(function (token) {
-            console.log('111');
-            console.log(token);
             userToken = token;
             session[session_user_key] = userToken.tokenInfo;
             sessionCache[session[session_user_key]] = userInfo;
             cb("success", userInfo, userToken.tokenInfo);
           }).catch(function (err) {
-            console.log(err);
-            console.log(44);
           })
         }
       }).catch(function (err) {
-        console.log(err);
       })
     } else {
       session[session_user_key] = null;
@@ -135,4 +127,11 @@ exports.checkAutoLogin = function (req, success, error) {
   } else {
     error();
   }
-}
+};
+
+
+exports.clientLogin = function (req, tokenInfo, userInfo) {
+  var session = req.session;
+  session[session_user_key] = tokenInfo;
+  sessionCache[session[session_user_key]] = userInfo;
+};

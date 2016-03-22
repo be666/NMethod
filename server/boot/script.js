@@ -2,19 +2,20 @@
  * Created by bqxu on 16/1/5.
  */
 var tools = require("../../tools");
+var uuid = require("uuid");
 module.exports = function (app) {
-  var User = tools.getModelByName("User");
-  User.findOrCreate({
-      "id": 1,
-      "loginName": "Admin",
-      "userName": "管理员",
-      "createdAt": "2016-02-29T11:52:20.301Z",
-      "password": "123456",
-      "state": 1,
-      "sex": "0",
-      "realName": "徐柏清",
-      "email": "bcaring@163.com",
-      "updatedAt": "2016-02-29T16:15:04.595Z"
+  var AuthUser = tools.getModelByName("AuthUser");
+  AuthUser.findOrCreate({
+      id: 1001,
+      loginName: "admin",
+      userName: "bqxu",
+      realName: "bqxu",
+      pwd: tools.ldap_ssha("123456"),
+      passWord: tools.md5("123456"),
+      sex: 0,
+      birthday: "1991-11-06",
+      address: "iMethod",
+      email: "bcaring@163.com"
     }, function (err, user) {
       if (err) {
         console.log(err)
@@ -22,5 +23,38 @@ module.exports = function (app) {
         console.log(user)
       }
     }
-  )
+  );
+
+  var AuthApp = tools.getModelByName("AuthApp");
+
+  AuthApp.findOrCreate({
+      id: 1001,
+      appName: "linux",
+      siteUrl: "localhost",
+      siteIp: "",
+      appToken: uuid.v4().replace(new RegExp('-', 'g'), '')
+    }, function (err, user) {
+      if (err) {
+        console.log(err)
+      } else {
+        console.log(user)
+      }
+    }
+  );
+
+  var AuthGroup = tools.getModelByName("AuthGroup");
+  AuthGroup.findOrCreate({
+      id: 1001,
+      gid: 1001,
+      groupName: '501',
+      appId: 1
+    }, function (err, user) {
+      if (err) {
+        console.log(err)
+      } else {
+        console.log(user)
+      }
+    }
+  );
+
 };

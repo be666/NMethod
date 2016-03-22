@@ -26,22 +26,6 @@
   "auth": {
     "./middleware/context.js": {},
     "./middleware/auth.js": {
-      "name": "auth",
-      "params": {
-        "ignore": [
-          "/api/Users/login",
-          "/api/AuthServers/login",
-          "/api/AuthServers/sign",
-          "/api/AuthServers/info",
-          "/explorer/",
-          "/explorer",
-          "/dist/",
-          "/login",
-          "/sign",
-          "/auth",
-          "/cdn.amazeui.org/"
-        ]
-      }
     }
   },
   "auth:after": {

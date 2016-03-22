@@ -3,15 +3,16 @@
     "sources": [
       "loopback/common/models",
       "loopback/server/models",
-      "../common/models",
       "./models",
-      "./models/app"
+      "../auth/models",
+      "../auth-server/models",
+      "../auth-client/models"
     ],
     "mixins": [
       "loopback/common/mixins",
       "loopback/server/mixins",
-      "../common/mixins",
-      "./mixins"
+      "./mixins",
+      "../auth/mixins"
     ]
   },
   "ACL": {
@@ -27,26 +28,58 @@
     "public": true
   },
   "User": {
-    "dataSource": "sys",
-    "public": true
-  },
-  "UserToken": {
-    "dataSource": "sys",
+    "dataSource": "db",
     "public": true
   },
   "LoginUser": {
     "dataSource": "sys",
-    "public": true
+    "public": false
   },
   "VisitLog": {
-    "dataSource": "sys",
+    "dataSource": "log",
     "public": true
   },
   "OptionLog": {
-    "dataSource": "sys",
+    "dataSource": "log",
     "public": true
   },
   "Proxy": {
+    "dataSource": "sys",
+    "public": false
+  },
+  "AuthApp": {
+    "dataSource": "auth",
+    "public": true
+  },
+  "AuthAppUser": {
+    "dataSource": "auth",
+    "public": true
+  },
+  "AuthGroup": {
+    "dataSource": "auth",
+    "public": true
+  },
+  "AuthGroupUser": {
+    "dataSource": "auth",
+    "public": true
+  },
+  "AuthUser": {
+    "dataSource": "user",
+    "public": true
+  },
+  "AuthUserToken": {
+    "dataSource": "token",
+    "public": false
+  },
+  "LdapAdapter": {
+    "dataSource": "sys",
+    "public": false
+  },
+  "AuthServer": {
+    "dataSource": "sys",
+    "public": true
+  },
+  "AuthClient": {
     "dataSource": "sys",
     "public": true
   }

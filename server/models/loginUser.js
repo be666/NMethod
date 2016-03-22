@@ -2,18 +2,18 @@ var tools = require("../../tools");
 module.exports = function (LoginUser) {
 
   LoginUser.findByToken = function (token) {
-    var UserToken = tools.getModelByName('UserToken');
-    return UserToken.findOne({where: {tokenInfo: token, state: 1}})
+    var AuthUserToken = tools.getModelByName('AuthUserToken');
+    return AuthUserToken.findOne({where: {tokenInfo: token, state: 1}})
   };
 
   LoginUser.findUserById = function (userId) {
-    var User = tools.getModelByName('User');
-    return User.findById(userId)
+    var AuthUser = tools.getModelByName('AuthUser');
+    return AuthUser.findById(userId)
   };
 
   LoginUser.findByLoginName = function (loginName) {
-    var User = tools.getModelByName('User');
-    return User.findOne({
+    var AuthUser = tools.getModelByName('AuthUser');
+    return AuthUser.findOne({
       where: {
         loginName: loginName
       }
@@ -21,8 +21,8 @@ module.exports = function (LoginUser) {
   };
 
   LoginUser.createByLoginName = function (loginName) {
-    var User = tools.getModelByName('User');
-    return User.create({
+    var AuthUser = tools.getModelByName('AuthUser');
+    return AuthUser.create({
       id: 0,
       loginName: loginName,
       state: 1,
@@ -31,22 +31,22 @@ module.exports = function (LoginUser) {
   };
 
   LoginUser.saveToken = function (userId, token, ips) {
-    var UserToken = tools.getModelByName('UserToken');
-    return UserToken.create({id: 0, userId: userId, tokenInfo: token, ips: ips, state: 1});
+    var AuthUserToken = tools.getModelByName('AuthUserToken');
+    return AuthUserToken.create({id: 0, userId: userId, tokenInfo: token, ips: ips, state: 1});
   };
 
   LoginUser.deleteToken = function (token) {
-    var UserToken = tools.getModelByName('UserToken');
-    return UserToken.updateAll({tokenInfo: token, state: 0});
+    var AuthUserToken = tools.getModelByName('AuthUserToken');
+    return AuthUserToken.updateAll({tokenInfo: token, state: 0});
   };
 
   LoginUser.getUserInfo = function (loginName, pwd, cb) {
-    var User = tools.getModelByName('User');
-    return User.findOne({where: {loginName: loginName, password: pwd}}, function (err, user) {
-      if (user != null) {
+    var AuthUser = tools.getModelByName('AuthUser');
+    return AuthUser.findOne({where: {loginName: loginName, passWord: pwd}}, function (err, authUser) {
+      if (authUser != null) {
         return cb({
           state: "success",
-          userInfo: user
+          userInfo: authUser
         })
       }
       cb({state: "false"});

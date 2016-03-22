@@ -1,0 +1,73 @@
+{
+  "name": "AuthApp",
+  "base": "Entity",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "appName": {
+      "type": "String",
+      "required": false,
+      "length": 20,
+      "precision": null,
+      "scale": null,
+      "_selectable": true
+    },
+    "siteUrl": {
+      "type": "String",
+      "required": false,
+      "length": 128,
+      "precision": null,
+      "scale": null,
+      "_selectable": true
+    },
+    "siteIp": {
+      "type": "String",
+      "required": false,
+      "length": 128,
+      "precision": null,
+      "scale": null,
+      "_selectable": true
+    },
+    "appToken": {
+      "type": "String",
+      "required": false,
+      "length": 128,
+      "precision": null,
+      "scale": null,
+      "_selectable": true
+    },
+    "allowSign": {
+      "type": "number",
+      "required": false,
+      "length": 1,
+      "precision": null,
+      "scale": null,
+      "_selectable": true
+    },
+    "allowAll": {
+      "type": "number",
+      "required": false,
+      "length": 1,
+      "precision": null,
+      "scale": null,
+      "_selectable": true
+    }
+  },
+  "validations": [],
+  "relations": {
+    "appUser": {
+      "type": "hasMany",
+      "model": "AuthAppUser",
+      "foreignKey": "appId"
+    },
+    "appGroup": {
+      "type": "hasMany",
+      "model": "AuthGroup",
+      "foreignKey": "appId"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

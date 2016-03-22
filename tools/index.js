@@ -3,7 +3,13 @@
  */
 var loopback = require("loopback");
 var app = require("../server/server");
-var logger = require("./logger");
+var fs = require('fs');
+var http = require('http');
+var bunyan = require("bunyan");
+var path = require("path");
+var url = require("url");
+var crypto = require("crypto");
+
 var pub = {};
 pub.loopback = loopback;
 pub.app = app;
@@ -161,8 +167,145 @@ pub.getDateExp = function (exp) {
 };
 
 
-pub.logger = logger;
+pub.ldap_ssha = function ($password) {
+  var hash = crypto.createHash('sha1');
+  var salt = crypto.randomBytes(20);
+  hash.update($password);
+  hash.update(salt);
+  var digest = hash.digest();
+  return "{SSHA}" + Buffer.concat([digest, salt], digest.length + salt.length).toString('base64');
+};
 
-pub.debugger = logger.debugger;
+pub.ssha_check = function ($password, $ssha) {
+  if ($ssha.startsWith('{SSHA}')) {
+    $ssha = $ssha.substring(6, $ssha.length);
+  }
+  var $hash = new Buffer($ssha, 'base64');
+  var $digest = $hash.slice(0, 20);
+  var $salt = $hash.slice(20);
+  var hash = crypto.createHash('sha1');
+  hash.update($password);
+  hash.update($salt);
+  var digest = hash.digest();
+  return digest.equals($digest);
+};
 
+pub.md5 = function (content) {
+  var md5 = crypto.createHash('md5');
+  md5.update(content);
+  return md5.digest('hex');
+};
+
+pub.proxy = function (distUrl, req, res, cacheFile) {
+  var backTimeoutTTL = 20000;
+  var distObj = url.parse(distUrl);
+  req.headers.host = distObj.host;
+  var options = {
+    host: distObj.hostname,
+    port: distObj.port,
+    headers: req.headers,
+    path: distObj.path,
+    agent: false,
+    method: req.method
+  };
+
+  var request_timer;
+  var httpProxy = http.request(options, function (response) {
+    if (request_timer) clearTimeout(request_timer);
+    response.setEncoding('utf8');
+    response.pipe(res);
+    cacheFile && response.pipe(fs.createWriteStream(cacheFile))
+  });
+  httpProxy.on('error', function (e) {
+    res.end('error happend :' + req.url)
+  });
+  request_timer = setTimeout(function () {
+    console.log('request timeout [%s] %s', host, req.url);
+    httpProxy.abort();
+    res.end('request timeout :' + req.url)
+  }, backTimeoutTTL);
+  return httpProxy
+};
+
+
+var log_dir = path.resolve(__dirname, '../log');
+
+var log = bunyan.createLogger({
+  name: pub.getArg('appName'),
+  serializers: bunyan.stdSerializers,
+  streams: [
+    {
+      level: 'debug',
+      stream: process.stdout            // log INFO and above to stdout
+    },
+    {
+      level: 'error',
+      path: path.resolve(log_dir, pub.getArg('appName') + '_error.log')  // log ERROR and above to a file
+    },
+    {
+      level: 'warn',
+      path: path.resolve(log_dir, pub.getArg('appName') + '_warn.log')  // log ERROR and above to a file
+    }
+  ]
+});
+
+
+pub.logVisit = function (url) {
+  var VisitLog = pub.getModelByName("VisitLog");
+  VisitLog.log(url);
+};
+
+pub.optionLog = function (action, req) {
+  var OptionLog = pub.getModelByName("OptionLog");
+  OptionLog.option(action, req);
+};
+
+pub.logger = {
+  debug: console.log,
+  info: console.log,
+  warn: console.log
+};
+
+pub.getError = function (errMsg, status) {
+  var error = new Error(errMsg);
+  error.status = status || 401;
+  delete error.stack;
+  return error;
+};
+
+
+pub.httpRequest = function (distUrl, method, cb) {
+  var distObj = url.parse(distUrl);
+  var req = http.request({
+    hostname: distObj.hostname,
+    port: distObj.port,
+    path: distObj.path,
+    agent: false,
+    method: method || 'get'
+  }, (res) => {
+    var dataCache = [];
+    var dataLength = 0;
+    res.setEncoding('utf8');
+    if (res.statusCode != 200) {
+      cb(pub.getError('无法连接到服务器'));
+    }
+    res.on('data', (chunk) => {
+      console.log(chunk)
+      dataCache.push(chunk);
+      dataLength += chunk.length;
+    });
+    res.on('end', () => {
+      cb(null, dataCache.join(''))
+    })
+  });
+  req.on('error', (e) => {
+    pub.logger.debug(e);
+    cb(e);
+  });
+
+  req.end()
+
+};
 module.exports = pub;
+
+

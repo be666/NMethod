@@ -1,8 +1,9 @@
-var authService = require("../auth/auth_service");
+var authService = require("../service/auth_service");
 var tools = require("../../tools");
 module.exports = function (User) {
 
   User.login = function (req, res, userName, password, autoLogin, cb) {
+    password = tools.md5(password);
     authService.login(req, userName, password, function (state, userInfo, tokenInfo) {
       if (state == "success") {
         if (autoLogin) {

@@ -1,5 +1,5 @@
 {
-  "name": "UserToken",
+  "name": "AuthUserToken",
   "base": "Entity",
   "idInjection": true,
   "options": {
@@ -43,7 +43,7 @@
   "relations": {
     "user": {
       "type": "belongsTo",
-      "model": "User",
+      "model": "AuthUser",
       "foreignKey": "userId"
     }
   },

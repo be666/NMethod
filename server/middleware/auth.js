@@ -1,7 +1,7 @@
 /**
  * Created by bqxu on 15/12/17.
  */
-var authService = require("../auth/auth_service");
+var authService = require("../service/auth_service");
 var tools = require("../../tools");
 module.exports = function (option) {
   option = option || {};
@@ -23,9 +23,13 @@ module.exports = function (option) {
         var error = new Error("no login");
         error.status = 401;
         delete error.stack;
-        next(error);
+        if (req.xhr) {
+          next(error);
+        } else {
+          res.redirect(301, '/#!/login');
+          next(error);
+        }
       })
-
     }
   }
 };

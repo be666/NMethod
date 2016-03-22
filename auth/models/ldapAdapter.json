@@ -1,6 +1,6 @@
 {
-  "name": "User",
-  "base": "Entity",
+  "name": "LdapAdapter",
+  "base": "Model",
   "idInjection": true,
   "options": {
     "validateUpsert": true
@@ -8,7 +8,8 @@
   "properties": {
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+  },
   "acls": [],
   "methods": {}
 }
