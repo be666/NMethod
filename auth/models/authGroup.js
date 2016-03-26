@@ -1,6 +1,4 @@
-/**
- * Created by bqxu on 16/3/16.
- */
+'use strict';
 module.exports = function (AuthGroup) {
 
 };

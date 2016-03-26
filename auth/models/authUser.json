@@ -30,10 +30,18 @@
       "scale": null,
       "_selectable": true
     },
+    "pwd": {
+      "type": "String",
+      "required": false,
+      "length": 100,
+      "precision": null,
+      "scale": null,
+      "_selectable": true
+    },
     "passWord": {
       "type": "String",
       "required": false,
-      "length": 20,
+      "length": 100,
       "precision": null,
       "scale": null,
       "_selectable": true
@@ -50,6 +58,14 @@
       "type": "String",
       "required": false,
       "length": 20,
+      "precision": null,
+      "scale": null,
+      "_selectable": true
+    },
+    "address": {
+      "type": "String",
+      "required": false,
+      "length": 256,
       "precision": null,
       "scale": null,
       "_selectable": true

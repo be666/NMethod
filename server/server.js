@@ -2,7 +2,13 @@ var loopback = require('loopback');
 var path = require('path');
 var boot = require('loopback-boot');
 var app = module.exports = loopback();
+
 app.use(loopback.context());
+
+app.use(function saveHostToContext(req, res, next) {
+  loopback.getCurrentContext();
+  next();
+});
 
 app.start = function () {
   // start the web server

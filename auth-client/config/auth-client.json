@@ -1,6 +1,0 @@
-{
-  "authUrl": "http://0.0.0.0:3000",
-  "userInfo": "/api/AuthServers/info",
-  "appToken": "959a87b30ac5489a9ac8aa80aa0429b9",
-  "login": "/login"
-}

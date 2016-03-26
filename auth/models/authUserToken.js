@@ -1,3 +1,4 @@
-module.exports = function(AuthUserToken) {
+'use strict';
+module.exports = function (AuthUserToken) {
 
 };

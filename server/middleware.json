@@ -24,7 +24,7 @@
   "session": {
   },
   "auth": {
-    "./middleware/context.js": {},
+    "loopback#context": {},
     "./middleware/auth.js": {
       "name": "auth",
       "params": {
@@ -33,6 +33,7 @@
           "/api/AuthServers/login",
           "/api/AuthServers/sign",
           "/api/AuthServers/info",
+          "/api/AuthServers/logout",
           "/explorer/",
           "/explorer",
           "/dist/",
@@ -47,9 +48,9 @@
   "auth:after": {
   },
   "parse": {
-    "./middleware/multipart.js": {}
   },
   "routes:before": {
+
   },
   "routes": {
     "./middleware/rest.js": {

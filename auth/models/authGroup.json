@@ -22,7 +22,7 @@
       "scale": null,
       "_selectable": true
     },
-    "groupRule": {
+    "groupCode": {
       "type": "String",
       "required": false,
       "length": 20,

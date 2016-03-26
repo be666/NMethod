@@ -1,36 +1,20 @@
 {
   "db": {
     "name": "db",
-    "connector": "memory",
-    "file": "memory/db.json"
-  },
-  "sys": {
-    "name": "db",
-    "connector": "memory",
-    "file": "memory/sys.json"
+    "connector": "memory"
   },
   "user": {
-    "name": "db",
+    "name": "user",
     "connector": "memory",
     "file": "memory/user.json"
   },
   "token": {
-    "name": "db",
+    "name": "token",
     "connector": "memory",
     "file": "memory/token.json"
   },
-  "login": {
-    "name": "db",
-    "connector": "memory",
-    "file": "memory/login.json"
-  },
-  "log": {
-    "name": "db",
-    "connector": "memory",
-    "file": "memory/log.json"
-  },
   "auth": {
-    "name": "db",
+    "name": "auth",
     "connector": "memory",
     "file": "memory/auth.json"
   }

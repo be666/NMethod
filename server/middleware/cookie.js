@@ -1,6 +1,4 @@
-/**
- * Created by bqxu on 15/12/20.
- */
+'use strict';
 var tools = require("../../tools");
 var cookieParser = require('cookie-parser');
 module.exports = function (option) {

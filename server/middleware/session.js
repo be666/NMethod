@@ -1,6 +1,4 @@
-/**
- * Created by bqxu on 15/12/9.
- */
+'use strict';
 var tools = require("../../tools");
 var session = require("express-session");
 module.exports = function (option) {

@@ -1,15 +1,11 @@
-/**
- * Created by bqxu on 16/3/18.
- */
-
-var async = require('async');
-var tools = require('../../tools');
+'use strict';
+let async = require('async');
+let tools = require('../../tools');
 module.exports = function (AuthAppUser) {
 
-
   AuthAppUser.bindUser = function (appId, userIds, cb) {
-    var AuthUser = tools.getModelByName('AuthUser');
-    var AuthApp = tools.getModelByName('AuthApp');
+    let AuthUser = tools.getModelByName('AuthUser');
+    let AuthApp = tools.getModelByName('AuthApp');
     AuthApp.findOne({
       where: {
         id: appId
@@ -30,8 +26,7 @@ module.exports = function (AuthAppUser) {
           AuthAppUser.findOrCreate({
             userId: userId,
             appId: appId
-          }).
-          then(function () {
+          }).then(function () {
             cbx(null)
           }).catch(function (err) {
             cbx(err)

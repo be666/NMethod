@@ -1,9 +1,7 @@
-var fileUpload = require("../app/fileupload");
+'use strict';
 var proxy = require("../app/proxy");
 var path = require('path');
 module.exports = function (app) {
-  app.use('/fileUpload', fileUpload);
-  app.use(proxy);
 
   app.get("/admin", function (req, res) {
     res.sendFile(path.resolve(__dirname, '../../client/admin.html'))
@@ -16,5 +14,9 @@ module.exports = function (app) {
   app.get("/sign", function (req, res) {
     res.sendFile(path.resolve(__dirname, '../../client/sign.html'))
   });
+
+  app.get('/state', app.loopback.status());
+
+  app.use(proxy);
 
 };

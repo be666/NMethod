@@ -1,14 +1,12 @@
-/**
- * Created by bqxu on 15/12/9.
- */
-var loopback = require("loopback");
-var app = require("../server/server");
-var fs = require('fs');
-var http = require('http');
-var bunyan = require("bunyan");
-var path = require("path");
-var url = require("url");
-var crypto = require("crypto");
+'use strict';
+let loopback = require("loopback");
+let app = require("../server/server");
+let fs = require('fs');
+let http = require('http');
+let bunyan = require("bunyan");
+let path = require("path");
+let url = require("url");
+let crypto = require("crypto");
 
 var pub = {};
 pub.loopback = loopback;
@@ -121,25 +119,20 @@ pub.inArrayMatch = function (arr, el) {
       return true;
     }
   }
-}
+};
 
 pub.getArg = function (arg) {
   return app.get(arg);
 };
 
-
-pub.getCurrentContext = function () {
-  return loopback.getCurrentContext();
-};
-
 pub.saveUser = function (userInfo) {
-  var context = pub.getCurrentContext();
+  var context = loopback.getCurrentContext();
   if (context != null) {
     context.set("threadUserInfo", userInfo);
   }
 };
 pub.getUser = function () {
-  var context = pub.getCurrentContext();
+  var context = loopback.getCurrentContext();
   if (context != null) {
     return context.get("threadUserInfo");
   }
@@ -226,29 +219,6 @@ pub.proxy = function (distUrl, req, res, cacheFile) {
   }, backTimeoutTTL);
   return httpProxy
 };
-
-
-var log_dir = path.resolve(__dirname, '../log');
-
-var log = bunyan.createLogger({
-  name: pub.getArg('appName'),
-  serializers: bunyan.stdSerializers,
-  streams: [
-    {
-      level: 'debug',
-      stream: process.stdout            // log INFO and above to stdout
-    },
-    {
-      level: 'error',
-      path: path.resolve(log_dir, pub.getArg('appName') + '_error.log')  // log ERROR and above to a file
-    },
-    {
-      level: 'warn',
-      path: path.resolve(log_dir, pub.getArg('appName') + '_warn.log')  // log ERROR and above to a file
-    }
-  ]
-});
-
 
 pub.logVisit = function (url) {
   var VisitLog = pub.getModelByName("VisitLog");

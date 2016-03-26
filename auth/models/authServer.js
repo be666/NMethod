@@ -1,68 +1,86 @@
-/**
- * Created by bqxu on 16/3/16.
- */
-var tools = require('../../tools');
-var authService = require("../../server/service/auth_service");
-var async = require("async");
+'use strict';
+let tools = require('../../tools');
+let async = require("async");
 module.exports = function (AuthServer) {
-
 
   AuthServer.login = function (req, res, username, password, app_token, cb) {
     var AuthUser = tools.getModelByName('AuthUser');
     var AuthApp = tools.getModelByName('AuthApp');
     var AuthAppUser = tools.getModelByName('AuthAppUser');
-    AuthUser.findOne({
-      where: {
-        or: [{
-          email: username
-        }, {
-          loginName: username
-        }]
-      }
-    }).then(function (authUser) {
-
-      if (!authUser || authUser.passWord != tools.md5(password)) {
-        return cb(tools.getError("用户名、密码不正确!"));
-      }
-
-      AuthApp.findOne({
-        where: {
-          appToken: app_token
-        }
-      }).then(function (authApp) {
-        if (!authApp) {
-          return cb(tools.getError("无效的应用信息"));
-        }
-        AuthAppUser.findOne({
+    var AuthUserToken = tools.getModelByName('AuthUserToken');
+    async.series({
+      authUser: function (cbx) {
+        AuthUser.findOne({
           where: {
-            appId: authApp.id,
-            userId: authUser.id
+            state: 1,
+            or: [{
+              email: username
+            }, {
+              loginName: username
+            }]
           }
-        }).then(function (authAppUser) {
-          if (!authAppUser) {
-            return cb(tools.getError("您当前的登录用户不能在当前应用下使用,没有权限!"));
+        }).then(function (authUser) {
+          if (!authUser || !tools.ssha_check(password, authUser.pwd)) {
+            return cb(tools.getError("用户名、密码不正确!"));
           }
-          authService.login(req, authUser.loginName, authUser.passWord, function (state, userInfo, tokenInfo) {
-            if (state == "success") {
-              cb(null,
-                tokenInfo,
-                authApp
-              );
-            } else {
-              var error = new Error("login error");
-              error.status = 404;
-              cb(error);
-            }
-          });
+          cbx(null, authUser)
+        }).catch(function (err) {
+          cbx(err);
+        })
+      },
+      authApp: function (cbx) {
+        if (!app_token) {
+          app_token = tools.getArg('authClient').appToken;
+        }
+
+        if (!app_token) {
+          return cbx(tools.getError("无效的应用信息"));
+        }
+        AuthApp.findOne({
+          where: {
+            state: 1,
+            appToken: app_token
+          }
+        }).then(function (authApp) {
+          if (!authApp) {
+            return cbx(tools.getError("无效的应用信息"));
+          }
+          cbx(null, authApp)
+        }).catch(function (err) {
+          cbx(err);
+        })
+      }
+    }, function (err, AU) {
+      if (err) {
+        console.log(err);
+        return cb(tools.getError("您当前的登录用户不能在当前应用下使用,没有权限!"));
+      }
+      var authApp = AU.authApp;
+      var authUser = AU.authUser;
+      AuthAppUser.findOne({
+        where: {
+          state: 1,
+          appId: authApp.id,
+          userId: authUser.id
+        }
+      }).then(function (authAppUser) {
+        if (!authApp.allowAll && !authAppUser) {
+          return cb(tools.getError("您当前的登录用户不能在当前应用下使用,没有权限!"));
+        }
+        var tokenInfo = tools.getUUid();
+        AuthUserToken.create({
+          state: 1,
+          userId: authUser.id,
+          tokenInfo: tokenInfo
+        }).then(function (token) {
+          cb(null, token.tokenInfo, authApp);
         }).catch(function (err) {
           cb(err);
         })
       }).catch(function (err) {
         cb(err);
       })
-    }).catch(function (err) {
-      cb(err);
-    })
+    });
   };
 
   AuthServer.remoteMethod("login", {
@@ -89,13 +107,23 @@ module.exports = function (AuthServer) {
     var AuthApp = tools.getModelByName('AuthApp');
     var AuthUser = tools.getModelByName('AuthUser');
     var AuthAppUser = tools.getModelByName('AuthAppUser');
+    if (!app_token) {
+      app_token = tools.getArg('authClient').appToken;
+    }
+    if (!app_token) {
+      return cb(tools.getError("无效的应用信息"));
+    }
     AuthApp.findOne({
       where: {
+        state: 1,
         appToken: app_token
       }
     }).then(function (authApp) {
       if (!authApp) {
-        cb(tools.getError('无效的应用信息'))
+        return cb(tools.getError('无效的应用信息'))
+      }
+      if (!authApp.allowSign) {
+        return cb(tools.getError('当前未开放注册功能,请联系管理员!'))
       }
       AuthUser.create({
         loginName: loginName,
@@ -158,6 +186,7 @@ module.exports = function (AuthServer) {
       authUser: function (cbx) {
         AuthUserToken.findOne({
           where: {
+            state: 1,
             tokenInfo: tokenInfo
           },
           include: 'user'
@@ -173,8 +202,15 @@ module.exports = function (AuthServer) {
         })
       },
       authApp: function (cbx) {
+        if (!appToken) {
+          appToken = tools.getArg('authClient').appToken;
+        }
+        if (!appToken) {
+          return cbx(tools.getError("无效的应用信息"));
+        }
         AuthApp.findOne({
           where: {
+            state: 1,
             appToken: appToken
           }
         }).then(function (app) {
@@ -187,13 +223,19 @@ module.exports = function (AuthServer) {
         })
       }
     }, function (err, UA) {
-
+      if (err) {
+        return cb(tools.getError('该用户没有当前应用的访问权限'));
+      }
       var authUser = UA.authUser;
       var authApp = UA.authApp;
       async.series({
         userApp: function (cbx) {
+          if (authApp.allowAll) {
+            return cbx(null, null);
+          }
           AuthAppUser.findOne({
             where: {
+              state: 1,
               appId: authApp.id,
               userId: authUser.id
             }
@@ -209,6 +251,7 @@ module.exports = function (AuthServer) {
         userGroup: function (cbx) {
           AuthGroupUser.find({
             where: {
+              state: 1,
               userId: authUser.id,
               appId: authApp.id
             },
@@ -217,7 +260,7 @@ module.exports = function (AuthServer) {
             groupUser = JSON.parse(JSON.stringify(groupUser));
             var group = [];
             for (var key in groupUser) {
-              group.push(groupUser[key]['group']['groupRule']);
+              group.push(groupUser[key]['group']['groupCode']);
             }
             cbx(null, group);
           }).catch(function (err) {
@@ -226,8 +269,8 @@ module.exports = function (AuthServer) {
         }
       }, function (err, AG) {
         var userGroup = AG.userGroup;
-
         cb(null, {
+          id: authUser.id,
           loginName: authUser.loginName,
           realName: authUser.realName,
           userName: authUser.userName,
@@ -251,6 +294,82 @@ module.exports = function (AuthServer) {
       {arg: 'groupRule', type: 'array'}
     ],
     http: {path: "/info", verb: "get"}
+  });
+
+
+  AuthServer.logout = function (res, tokenInfo, appToken, cb) {
+
+    var AuthUserToken = tools.getModelByName('AuthUserToken');
+    var AuthApp = tools.getModelByName('AuthApp');
+    var AuthAppUser = tools.getModelByName('AuthAppUser');
+    async.series({
+      authUser: function (cbx) {
+        AuthUserToken.findOne({
+          where: {
+            state: 1,
+            tokenInfo: tokenInfo
+          },
+          include: 'user'
+        }).then(function (token) {
+          token = JSON.parse(JSON.stringify(token));
+          if (!token) {
+            return cbx(tools.getError('无效的用户凭证'));
+          }
+
+          cbx(null, token.user);
+        }).catch(function (err) {
+          cbx(err);
+        })
+      },
+      authApp: function (cbx) {
+        if (!appToken) {
+          appToken = tools.getArg('authClient').appToken;
+        }
+        if (!appToken) {
+          return cbx(tools.getError("无效的应用信息"));
+        }
+        AuthApp.findOne({
+          where: {
+            state: 1,
+            appToken: appToken
+          }
+        }).then(function (app) {
+          if (!app) {
+            return cb(tools.getError('无效的应用凭证'));
+          }
+          cbx(null, app);
+        }).catch(function (err) {
+          cbx(err);
+        })
+      }
+    }, function (err, UA) {
+      var authUser = UA.authUser;
+      var authApp = UA.authApp;
+      console.log('authAppauthAppauthApp')
+      AuthUserToken.updateAll({
+        state: 1,
+        tokenInfo: tokenInfo
+      }, {
+        state: 0
+      }).then(function (token) {
+        console.log(token);
+        cb(null, 'success');
+      }).catch(function (err) {
+        cb(err);
+      })
+    });
+  };
+
+  AuthServer.remoteMethod("logout", {
+    accepts: [
+      {arg: 'res', type: 'object', 'http': {source: 'res'}},
+      {arg: 'tokenInfo', type: 'string', required: true},
+      {arg: 'appToken', type: 'string', required: true}
+    ],
+    returns: [
+      {arg: 'state', type: 'string'}
+    ],
+    http: {path: "/logout", verb: "get"}
   });
 
 };

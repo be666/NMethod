@@ -4,9 +4,7 @@
       "loopback/common/models",
       "loopback/server/models",
       "./models",
-      "../auth/models",
-      "../auth-server/models",
-      "../auth-client/models"
+      "../auth/models"
     ],
     "mixins": [
       "loopback/common/mixins",
@@ -23,29 +21,13 @@
     "dataSource": "db",
     "public": false
   },
-  "Code": {
-    "dataSource": "sys",
-    "public": true
-  },
-  "User": {
+  "AuthClient": {
     "dataSource": "db",
     "public": true
   },
-  "LoginUser": {
-    "dataSource": "sys",
-    "public": false
-  },
-  "VisitLog": {
-    "dataSource": "log",
+  "AuthUser": {
+    "dataSource": "user",
     "public": true
-  },
-  "OptionLog": {
-    "dataSource": "log",
-    "public": true
-  },
-  "Proxy": {
-    "dataSource": "sys",
-    "public": false
   },
   "AuthApp": {
     "dataSource": "auth",
@@ -63,24 +45,12 @@
     "dataSource": "auth",
     "public": true
   },
-  "AuthUser": {
-    "dataSource": "user",
-    "public": true
-  },
   "AuthUserToken": {
     "dataSource": "token",
     "public": false
   },
-  "LdapAdapter": {
-    "dataSource": "sys",
-    "public": false
-  },
   "AuthServer": {
-    "dataSource": "sys",
-    "public": true
-  },
-  "AuthClient": {
-    "dataSource": "sys",
+    "dataSource": "db",
     "public": true
   }
 }

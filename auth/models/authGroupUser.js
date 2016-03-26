@@ -1,9 +1,6 @@
-/**
- * Created by bqxu on 16/3/18.
- */
-
-var async = require('async');
-var tools = require('../../tools');
+'use strict';
+let async = require('async');
+let tools = require('../../tools');
 
 module.exports = function (AuthGroupUser) {
 

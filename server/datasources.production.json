@@ -1,0 +1,33 @@
+{
+  "db": {
+    "name": "db",
+    "connector": "memory"
+  },
+  "user": {
+    "name": "user",
+    "connector": "mysql",
+    "host": "127.0.0.1",
+    "username": "root",
+    "password": "123456",
+    "port": "3306",
+    "database": "auth"
+  },
+  "token": {
+    "name": "token",
+    "connector": "mysql",
+    "host": "127.0.0.1",
+    "username": "root",
+    "password": "123456",
+    "port": "3306",
+    "database": "auth"
+  },
+  "auth": {
+    "name": "auth",
+    "connector": "mysql",
+    "host": "127.0.0.1",
+    "username": "root",
+    "password": "123456",
+    "port": "3306",
+    "database": "auth"
+  }
+}

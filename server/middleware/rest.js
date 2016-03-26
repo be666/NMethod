@@ -1,6 +1,4 @@
-/**
- * Created by bqxu on 15/12/18.
- */
+'use strict';
 var tools = require("../../tools");
 var loopback = tools.loopback;
 var async = require('async');

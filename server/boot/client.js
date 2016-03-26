@@ -1,12 +1,15 @@
-/**
- * Created by bqxu on 16/3/21.
- */
+'use strict';
 var tools = require("../../tools");
 module.exports = function (app) {
 
   app.get("/auth", function (req, res) {
     var AuthClient = tools.getModelByName('AuthClient');
-    AuthClient.userInfo(req, res)
+    AuthClient.auth(req, res)
+  });
+
+  app.get("/logout", function (req, res) {
+    var AuthClient = tools.getModelByName('AuthClient');
+    AuthClient.logout(req, res)
   });
 
 };

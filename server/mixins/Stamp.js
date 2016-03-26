@@ -1,6 +1,4 @@
-/**
- * Created by bqxu on 15/12/18.
- */
+'use strict';
 var tools = require("../../tools");
 module.exports = function (Model, options) {
   options = tools.extend({

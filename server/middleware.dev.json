@@ -8,6 +8,7 @@
     }
   },
   "initial": {
+
     "compression": {},
     "cors": {
       "params": {
@@ -24,14 +25,12 @@
   "session": {
   },
   "auth": {
-    "./middleware/context.js": {},
     "./middleware/auth.js": {
     }
   },
   "auth:after": {
   },
   "parse": {
-    "./middleware/multipart.js": {}
   },
   "routes:before": {
   },

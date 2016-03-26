@@ -1,7 +1,4 @@
-/**
- * 权限控制
- * 根据角色
- */
+'use strict';
 var tools = require("../../tools");
 module.exports = function (app) {
   var Role = app.models.Role;
@@ -15,10 +12,6 @@ module.exports = function (app) {
   function checkUserRule(rule) {
     var userInfo = tools.getUserInfo() || {};
     return !!tools.inArray(userInfo.userRule, rule)
-  }
-
-  function checkUserPermissions(modelName) {
-
   }
 
   Role.registerResolver('developer', function (role, context, cb) {
